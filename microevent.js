@@ -12,15 +12,14 @@
 var MicroEvent = function(){};
 
 MicroEvent.prototype = {
-
 	subscribe: function(event, fct) {
 		this._events = this._events || {};
 		this._events[event] = this._events[event]	|| [];
 		this._events[event].push(fct);
 		return this;
-	},
+	}
 
-	unsubscribe: function(event, fct) {
+	, unsubscribe: function(event, fct) {
 		this._events = this._events || {};
 
 		if(event in this._events !== false) {
@@ -28,9 +27,9 @@ MicroEvent.prototype = {
     }
 
 		return this;
-	},
+	}
 
-	publish: function(event /*, args... */) {
+	, publish: function(event /*, args... */) {
 		this._events = this._events || {};
 
 		if(event in this._events !== false)	{
@@ -42,6 +41,18 @@ MicroEvent.prototype = {
 		return this;
 	}
 };
+
+/**
+ * Shim for IE7's missing Array#indexOf
+ */
+if(!Array.prototype.indexOf) {
+  Array.prototype.indexOf = function(elem) {
+    for(var i = 0, length = this.length; i < length; ++i) {
+      if(this[i] === elem) { return i; }
+    }
+    return -1;
+  };
+}
 
 /**
  * mixin will delegate all MicroEvent.js function in the destination object
